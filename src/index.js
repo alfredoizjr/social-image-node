@@ -3,7 +3,8 @@ const path = require("path");
 const multer = require("multer");
 const uuid = require("uuid/v4");
 const app = express();
-const { format } = require('timeago.js')
+const { format } = require('timeago.js');
+
 require("./db");
 
 // Settings
@@ -11,22 +12,27 @@ app.set("port", process.env.PORT || 8000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 // Middlewareuse
+
 app.use((req,res, next) => {
     app.locals.format = format;
  next();
-})
+});
+// form format
 app.use(express.urlencoded({ extended: false }));
+// setting multer
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "public/img/uploads"),
   filename: (req, file, cb, filename) => {
     cb(null, uuid() + path.extname(file.originalname));
   }
 });
+// using multer
 app.use(
   multer({
     storage
   }).single("image")
 );
+
 // Routers
 
 app.use(require("./routes/router"));

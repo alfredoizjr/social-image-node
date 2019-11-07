@@ -3,10 +3,11 @@ const Image = require("../models/image");
 const route = express.Router();
 const { unlink } = require('fs-extra');
 const path = require('path');
+let message = '';
 
 route.get("/", async (req, res) => {
   let images = await Image.find();
-  res.render("index", { images });
+  res.render("index", { images, message: message});
 });
 
 route.get("/upload", (req, res) => {
@@ -22,7 +23,7 @@ route.post("/upload", async (req, res) => {
   image.originalname = req.file.originalname;
   image.mimetype = req.file.mimetype;
   image.size = req.file.size;
-
+  message = 'The item was added success';
   try {
     await image.save();
     res.redirect("/");

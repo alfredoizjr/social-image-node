@@ -19,6 +19,13 @@
       </div>
       <% }) %>
     </div>
+    <% if(message !== '') { %>
+    <div class="col-md-12 text-center">
+        <p id="alert" class="alert alert-success animted fadeInUp" style="width: 100%;">
+            <%=message %>
+        </p>
+    </div>
+    <% } %>
   </section>
 </main>
 <% include partials/footer %>
